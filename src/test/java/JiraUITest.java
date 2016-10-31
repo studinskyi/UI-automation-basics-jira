@@ -5,6 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import pages.IssuePage;
 import pages.LoginPage;
 import pages.LogoutPage;
 
@@ -17,6 +18,7 @@ public class JiraUITest {
     protected WebDriver driver;
     private LoginPage loginPage;
     private LogoutPage logoutPage;
+    private IssuePage issuePage;
 
     private final static String loginUser = "studinskyi";
     private final static String passwordUser = "dima_st";
@@ -26,6 +28,7 @@ public class JiraUITest {
         driver = new ChromeDriver();
         loginPage = new LoginPage(driver);
         logoutPage = new LogoutPage(driver);
+        issuePage = new IssuePage(driver);
 
         //        // запустить броузер и перейти по адресу
         //        driver.get("http://soft.it-hillel.com.ua:8080/login.jsp");
@@ -72,6 +75,21 @@ public class JiraUITest {
         }
         //        // закрываем окно браузера
         //        driver.close();
+    }
+
+    @Test(dependsOnMethods = "loginTest")
+    public void createIssue() {
+       issuePage.createIssue();
+        //        // получить значение у тайтла страницы
+        //        aTitle = driver.getTitle();
+        //        // выполняем проверку
+        //        assertEquals(aTitle, eTitle);
+        //
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
