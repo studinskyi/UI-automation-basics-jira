@@ -2,13 +2,18 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import utils.WebUtils;
 
 public class LoginPage {
+
     private WebDriver driver;
+    private WebUtils wUtil;
+
     private static final String loginJiraURL = "http://soft.it-hillel.com.ua:8080/login.jsp";
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
+        this.wUtil = new WebUtils(driver);
     }
 
     public void login(String loginUser, String passwordUser) {
@@ -38,17 +43,20 @@ public class LoginPage {
 
 
     public void enterLogin(String loginUser) {
-        driver.findElement(By.xpath("//input[@id='login-form-username']")).sendKeys(loginUser);
+        wUtil.findByXpath("//input[@id='login-form-username']").sendKeys(loginUser);
+        //driver.findElement(By.xpath("//input[@id='login-form-username']")).sendKeys(loginUser);
         //$x("//input[@id='login-form-username']")
         //driver.findElement(By.xpath("//input[@id='login-form-username']")).sendKeys("studinskyi");
     }
 
     public void enterPassword(String passwordUser) {
-        driver.findElement(By.xpath("//input[@id='login-form-password']")).sendKeys(passwordUser);
+        wUtil.findByXpath("//input[@id='login-form-password']").sendKeys(passwordUser);
+        //driver.findElement(By.xpath("//input[@id='login-form-password']")).sendKeys(passwordUser);
         //driver.findElement(By.xpath("//input[@id='login-form-password']")).sendKeys("dima_st");
     }
 
     public void clickSubmit() {
-        driver.findElement(By.xpath("//input[@id='login-form-submit']")).click();
+        wUtil.findByXpath("//input[@id='login-form-submit']").click();
+        //driver.findElement(By.xpath("//input[@id='login-form-submit']")).click();
     }
 }

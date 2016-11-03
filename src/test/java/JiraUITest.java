@@ -9,6 +9,7 @@ import pages.CreateIssuePage;
 import pages.LoginPage;
 import pages.LogoutPage;
 import pages.UpdateIssuePage;
+import utils.WebUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,6 +23,7 @@ public class JiraUITest {
     private LogoutPage logoutPage;
     private CreateIssuePage createIssuePage;
     private UpdateIssuePage updateIssuePage;
+    private WebUtils wUtil;
 
     private final static String loginUser = "studinskyi";
     private final static String passwordUser = "dima_st";
@@ -33,6 +35,7 @@ public class JiraUITest {
         logoutPage = new LogoutPage(driver);
         createIssuePage = new CreateIssuePage(driver);
         updateIssuePage = new UpdateIssuePage(driver);
+        wUtil = new WebUtils(driver);
 
         //        // запустить броузер и перейти по адресу
         //        driver.get("http://soft.it-hillel.com.ua:8080/login.jsp");
@@ -110,7 +113,7 @@ public class JiraUITest {
 
     @Test(dependsOnMethods = "loginTest")
     public void updateReporterInIssue() {
-        updateIssuePage.updateReporter();
+        updateIssuePage.updateReporterInIssue();
 
         // ожидание после выполнения
         try {
@@ -121,6 +124,30 @@ public class JiraUITest {
         //проверяем, какой поток
         System.out.println("updateReporterInIssue " + getCurrenDateTimeString());
         System.out.println("updateReporterInIssue - thread id: " + Thread.currentThread().getId());
+        //        try {
+        //            Thread.sleep(5000);
+        //        } catch (InterruptedException e) {
+        //            e.printStackTrace();
+        //        }
+        //        System.out.println("driver.findElement(By.xpath(\"//*[@id='issue_summary_reporter_a.a.piluck']\")).isEnabled() = " + driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled());
+        //        System.out.println("driver.findElement(By.xpath(\"//*[@id='issue_summary_reporter_a.a.piluck']\")).getText() = " + driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).getText());
+        //        System.out.println("driver.getTitle() = " + driver.getTitle());
+        //
+        //        Assert.assertEquals(driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled(), true);
+    }
+
+    @Test(dependsOnMethods = "loginTest")
+    public void addCommentToIssue() {
+        updateIssuePage.addCommentToIssue();
+        // ожидание после выполнения
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //проверяем, какой поток
+        System.out.println("addCommentToIssue " + getCurrenDateTimeString());
+        System.out.println("addCommentToIssue - thread id: " + Thread.currentThread().getId());
         //        try {
         //            Thread.sleep(5000);
         //        } catch (InterruptedException e) {
