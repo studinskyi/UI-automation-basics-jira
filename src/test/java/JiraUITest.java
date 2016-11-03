@@ -1,15 +1,17 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import pages.IssuePage;
+import pages.CreateIssuePage;
 import pages.LoginPage;
 import pages.LogoutPage;
+import pages.UpdateIssuePage;
 
-import java.util.concurrent.TimeUnit;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static org.testng.Assert.assertEquals;
 
@@ -18,7 +20,8 @@ public class JiraUITest {
     protected WebDriver driver;
     private LoginPage loginPage;
     private LogoutPage logoutPage;
-    private IssuePage issuePage;
+    private CreateIssuePage createIssuePage;
+    private UpdateIssuePage updateIssuePage;
 
     private final static String loginUser = "studinskyi";
     private final static String passwordUser = "dima_st";
@@ -28,7 +31,8 @@ public class JiraUITest {
         driver = new ChromeDriver();
         loginPage = new LoginPage(driver);
         logoutPage = new LogoutPage(driver);
-        issuePage = new IssuePage(driver);
+        createIssuePage = new CreateIssuePage(driver);
+        updateIssuePage = new UpdateIssuePage(driver);
 
         //        // запустить броузер и перейти по адресу
         //        driver.get("http://soft.it-hillel.com.ua:8080/login.jsp");
@@ -50,11 +54,15 @@ public class JiraUITest {
         //        // выполняем проверку
         //        assertEquals(aTitle, eTitle);
         //
+        // ожидание после выполнения
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        //проверяем, какой поток
+        System.out.println("loginTest " + getCurrenDateTimeString());
+        System.out.println("loginTest - thread id: " + Thread.currentThread().getId());
         //        // закрываем окно браузера
         //        driver.close();
     }
@@ -68,28 +76,61 @@ public class JiraUITest {
         //        // выполняем проверку
         //        assertEquals(aTitle, eTitle);
         //
+        // ожидание после выполнения
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        //проверяем, какой поток
+        System.out.println("logoutTest " + getCurrenDateTimeString());
+        System.out.println("logoutTest - thread id: " + Thread.currentThread().getId());
         //        // закрываем окно браузера
         //        driver.close();
     }
 
     @Test(dependsOnMethods = "loginTest")
     public void createIssue() {
-       issuePage.createIssue();
+        createIssuePage.createIssue();
         //        // получить значение у тайтла страницы
         //        aTitle = driver.getTitle();
         //        // выполняем проверку
         //        assertEquals(aTitle, eTitle);
         //
+        // ожидание после выполнения
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        //проверяем, какой поток
+        System.out.println("createIssue " + getCurrenDateTimeString());
+        System.out.println("createIssue - thread id: " + Thread.currentThread().getId());
+    }
+
+    @Test(dependsOnMethods = "loginTest")
+    public void updateReporterInIssue() {
+        updateIssuePage.updateReporter();
+
+        // ожидание после выполнения
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //проверяем, какой поток
+        System.out.println("updateReporterInIssue " + getCurrenDateTimeString());
+        System.out.println("updateReporterInIssue - thread id: " + Thread.currentThread().getId());
+        //        try {
+        //            Thread.sleep(5000);
+        //        } catch (InterruptedException e) {
+        //            e.printStackTrace();
+        //        }
+        //        System.out.println("driver.findElement(By.xpath(\"//*[@id='issue_summary_reporter_a.a.piluck']\")).isEnabled() = " + driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled());
+        //        System.out.println("driver.findElement(By.xpath(\"//*[@id='issue_summary_reporter_a.a.piluck']\")).getText() = " + driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).getText());
+        //        System.out.println("driver.getTitle() = " + driver.getTitle());
+        //
+        //        Assert.assertEquals(driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled(), true);
     }
 
     @Test
@@ -238,9 +279,17 @@ public class JiraUITest {
     @AfterTest
     public void afterEndTests() {
 
-        driver.close();
-        driver.quit();
+        //        driver.close();
+        //        driver.quit();
 
+    }
+
+    public String getCurrenDateTimeString() {
+        // для возможности последующего просмотра командой history
+        Date d = new Date();
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+        //FileManager.executedOperations.put(formatDate.format(d), FileManager.currentCommand);
+        return formatDate.format(d);
     }
 
 }

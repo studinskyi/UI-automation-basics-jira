@@ -11,13 +11,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class IssuePage {
-    public String issueKey = "";
+public class CreateIssuePage {
 
+    public String issueKey = "";
     private WebDriver driver;
 
 
-    public IssuePage(WebDriver driver) {
+    public CreateIssuePage(WebDriver driver) {
         this.driver = driver;
     }
 

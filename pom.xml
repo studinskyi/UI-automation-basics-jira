@@ -49,6 +49,11 @@
             <version>2.53.0</version>
             <!-- <version>3.0.1</version> -->
         </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>RELEASE</version>
+        </dependency>
 
 
     </dependencies>
