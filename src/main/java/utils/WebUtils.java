@@ -25,6 +25,10 @@ public class WebUtils {
         // wUtil.waitWebElement("", 5);
         return (new WebDriverWait(driver, timeOutInSeconds))
                 .until(ExpectedConditions.presenceOfElementLocated(By.xpath(xPath)));
+    }
 
+    //return true if the Element is available on the page
+    public boolean isElementEnabled(String xPath, long timeOutInSeconds) {
+        return waitWebElement(xPath, timeOutInSeconds).isEnabled();
     }
 }

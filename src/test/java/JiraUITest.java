@@ -9,7 +9,6 @@ import pages.CreateIssuePage;
 import pages.LoginPage;
 import pages.LogoutPage;
 import pages.UpdateIssuePage;
-import utils.WebUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,24 +17,25 @@ import static org.testng.Assert.assertEquals;
 
 public class JiraUITest {
 
-    protected WebDriver driver;
+    private WebDriver driver;
     private LoginPage loginPage;
     private LogoutPage logoutPage;
     private CreateIssuePage createIssuePage;
     private UpdateIssuePage updateIssuePage;
-    private WebUtils wUtil;
+
 
     private final static String loginUser = "studinskyi";
     private final static String passwordUser = "dima_st";
+    private final static String newReporterLogin = "a.a.piluck";
+    //private final static String newReporterName = "Artur Pilyuk";
 
-    @BeforeTest
+    @BeforeTest(groups = {"login", "issue", "update"})
     public void beforeStartTests() {
         driver = new ChromeDriver();
         loginPage = new LoginPage(driver);
         logoutPage = new LogoutPage(driver);
         createIssuePage = new CreateIssuePage(driver);
         updateIssuePage = new UpdateIssuePage(driver);
-        wUtil = new WebUtils(driver);
 
         //        // запустить броузер и перейти по адресу
         //        driver.get("http://soft.it-hillel.com.ua:8080/login.jsp");
@@ -47,22 +47,25 @@ public class JiraUITest {
         //        loginPage.clickSubmit();
     }
 
-    @Test
+    @Test(groups = "login")
     public void loginTest() {
-        String eTitle = "Log in - JIRA";
-        String aTitle = "";
+        //        String eTitle = "Log in - JIRA";
+        //        String aTitle = "";
         loginPage.login(loginUser, passwordUser);
-        //        // получить значение у тайтла страницы
-        //        aTitle = driver.getTitle();
-        //        // выполняем проверку
-        //        assertEquals(aTitle, eTitle);
-        //
         // ожидание после выполнения
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        System.out.println("wUtil.elementIsEnabled(\"//*[@id='header-details-user-fullname']\", 10) = " + loginPage.wUtil.isElementEnabled("//*[@id='header-details-user-fullname']", 10));
+        loginPage.webAssert.assertIsElementEnabled("//*[@id='header-details-user-fullname']", 10);
+        //Assert.assertEquals(wUtil.isElementEnabled("//*[@id='header-details-user-fullname']", 10), true);
+        //        // получить значение у тайтла страницы
+        //        aTitle = driver.getTitle();
+        //        assertEquals(aTitle, eTitle);
+
         //проверяем, какой поток
         System.out.println("loginTest " + getCurrenDateTimeString());
         System.out.println("loginTest - thread id: " + Thread.currentThread().getId());
@@ -70,9 +73,8 @@ public class JiraUITest {
         //        driver.close();
     }
 
-    @Test(dependsOnMethods = "loginTest")
+    @Test(groups = "login", dependsOnMethods = "loginTest")
     public void logoutTest() {
-
         logoutPage.logout();
         //        // получить значение у тайтла страницы
         //        aTitle = driver.getTitle();
@@ -92,35 +94,64 @@ public class JiraUITest {
         //        driver.close();
     }
 
-    @Test(dependsOnMethods = "loginTest")
+    @Test(groups = "issue", dependsOnMethods = "loginTest")
+    //@Test(dependsOnMethods = "loginTest")
     public void createIssue() {
+        // 1. create new testing issue
         createIssuePage.createIssue();
-        //        // получить значение у тайтла страницы
-        //        aTitle = driver.getTitle();
-        //        // выполняем проверку
-        //        assertEquals(aTitle, eTitle);
-        //
-        // ожидание после выполнения
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+        // 2.  проверка Assert-тов
+        //<a class="issue-link" data-issue-key="QAAUT-1737" href="/browse/QAAUT-1737" id="key-val" rel="15168">QAAUT-1737</a>
+        System.out.println("wUtil.elementIsEnabled(\"//*[@id='key-val']\", 10) = " + loginPage.wUtil.isElementEnabled("//*[@id='key-val']", 10));
+        createIssuePage.webAssert.assertIsElementEnabled("//*[@id='key-val']", 10);
+        Assert.assertEquals(driver.getTitle().contains(createIssuePage.issueKey), true); //проверка наличия в заголовке подстроки "QAAUT-1676"
+        createIssuePage.webAssert.assertIsElementEnabled("//*[@data-issue-key='" + createIssuePage.issueKey + "']", 10);
+
+        //Assert.assertEquals(wUtil.isElementEnabled("//*[@id='header-details-user-fullname']", 10), true);
+
+
+        //        System.out.println("driver.findElement(By.xpath(\"//*[@id='issue_summary_reporter_a.a.piluck']\")).isEnabled() = " + driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled());
+        //        System.out.println("driver.findElement(By.xpath(\"//*[@id='issue_summary_reporter_a.a.piluck']\")).getText() = " + driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).getText());
+        //        System.out.println("driver.getTitle() = " + driver.getTitle());
+        //        //<span class="user-hover" id="issue_summary_reporter_a.a.piluck" rel="a.a.piluck">
+        //        //driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled();
+        //        Assert.assertEquals(driver.getTitle().contains(issueKey), true); //проверка наличия в заголовке подстроки "QAAUT-1676"
+        //        Assert.assertEquals(driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled(), true);
+
+        // 3. deleteting new test issue
+        createIssuePage.deleteIssue();
+        //        driver.get("http://soft.it-hillel.com.ua:8080/browse/" + issueKey);
+        //        wUtil.findByXpath("//*[@id='opsbar-operations_more']/span[1]").click();
+        //        wUtil.findByXpath("//*[@id='delete-issue']/span").click();
+        //        wUtil.findByXpath("//*[@id='delete-issue-submit']").click();
+
         //проверяем, какой поток
         System.out.println("createIssue " + getCurrenDateTimeString());
         System.out.println("createIssue - thread id: " + Thread.currentThread().getId());
     }
 
-    @Test(dependsOnMethods = "loginTest")
+    @Test(groups = "update", dependsOnMethods = "loginTest")
     public void updateReporterInIssue() {
-        updateIssuePage.updateReporterInIssue();
+        // 1. обновление поля Reporter в Issue
+        updateIssuePage.updateReporterInIssue(newReporterLogin);
 
-        // ожидание после выполнения
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        // 2. проверка Assert-тов
+        System.out.println("driver.findElement(By.xpath(\"//*[@id='issue_summary_reporter_a.a.piluck']\")).isEnabled() = " + driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled());
+        System.out.println("driver.findElement(By.xpath(\"//*[@id='issue_summary_reporter_a.a.piluck']\")).getText() = " + driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).getText());
+        System.out.println("driver.getTitle() = " + driver.getTitle());
+        //<span class="user-hover" id="issue_summary_reporter_a.a.piluck" rel="a.a.piluck">
+        //driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled();
+        Assert.assertEquals(driver.getTitle().contains(updateIssuePage.issueKey), true); //проверка наличия в заголовке подстроки ключа issueKey "QAAUT-1676"
+        updateIssuePage.webAssert.assertIsElementEnabled("//*[@id='issue_summary_reporter_a.a.piluck']", 10);
+        //Assert.assertEquals(driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled(), true);
+
+        //        // 3. deleteting new test issue
+        updateIssuePage.deleteIssue();
+        //        driver.get("http://soft.it-hillel.com.ua:8080/browse/" + issueKey);
+        //        wUtil.findByXpath("//*[@id='opsbar-operations_more']/span[1]").click();
+        //        wUtil.findByXpath("//*[@id='delete-issue']/span").click();
+        //        wUtil.findByXpath("//*[@id='delete-issue-submit']").click();
+
         //проверяем, какой поток
         System.out.println("updateReporterInIssue " + getCurrenDateTimeString());
         System.out.println("updateReporterInIssue - thread id: " + Thread.currentThread().getId());
@@ -136,18 +167,17 @@ public class JiraUITest {
         //        Assert.assertEquals(driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled(), true);
     }
 
-    @Test(dependsOnMethods = "loginTest")
+    @Test(groups = "update", dependsOnMethods = "loginTest")
     public void addCommentToIssue() {
+        // 1. добавление комментария в Issue
         updateIssuePage.addCommentToIssue();
-        // ожидание после выполнения
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        //проверяем, какой поток
-        System.out.println("addCommentToIssue " + getCurrenDateTimeString());
-        System.out.println("addCommentToIssue - thread id: " + Thread.currentThread().getId());
+
+        //        // 6. проверка Assert-тов
+        //        String activityModuleValue = waitForWebElementUntilPresenceOfElementLocated("//*[@id='activitymodule']/div[2]" ).getText();
+        //        String sample = "added a comment - Now\n" + newComment;
+        //        if (activityModuleValue.contains(sample)) {
+        //            returnValue = true;
+        //        }
         //        try {
         //            Thread.sleep(5000);
         //        } catch (InterruptedException e) {
@@ -156,8 +186,20 @@ public class JiraUITest {
         //        System.out.println("driver.findElement(By.xpath(\"//*[@id='issue_summary_reporter_a.a.piluck']\")).isEnabled() = " + driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled());
         //        System.out.println("driver.findElement(By.xpath(\"//*[@id='issue_summary_reporter_a.a.piluck']\")).getText() = " + driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).getText());
         //        System.out.println("driver.getTitle() = " + driver.getTitle());
-        //
+        //        //<span class="user-hover" id="issue_summary_reporter_a.a.piluck" rel="a.a.piluck">
+        //        //driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled();
+        //        Assert.assertEquals(driver.getTitle().contains(issueKey), true); //проверка наличия в заголовке подстроки "QAAUT-1676"
         //        Assert.assertEquals(driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled(), true);
+
+        //        // 7. deleteting new test issue
+        //        driver.get("http://soft.it-hillel.com.ua:8080/browse/" + issueKey);
+        //        wUtil.findByXpath("//*[@id='opsbar-operations_more']/span[1]").click();
+        //        wUtil.findByXpath("//*[@id='delete-issue']/span").click();
+        //        wUtil.findByXpath("//*[@id='delete-issue-submit']").click();
+
+        //проверяем, какой поток
+        System.out.println("addCommentToIssue " + getCurrenDateTimeString());
+        System.out.println("addCommentToIssue - thread id: " + Thread.currentThread().getId());
     }
 
     @Test
