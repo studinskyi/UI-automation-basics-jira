@@ -5,18 +5,21 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import utils.WebAssert;
 import utils.WebUtils;
+import utils.WebWait;
 
 public class LoginPage {
 
     private WebDriver driver;
     public WebUtils wUtil;
+    public WebWait wWait;
     public WebAssert webAssert;
 
     private static final String loginJira_URL = "http://soft.it-hillel.com.ua:8080/login.jsp";
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
-        this.wUtil = new WebUtils(driver);
+        this.wUtil = new WebUtils(this.driver);
+        this.wWait = new WebWait(this.driver);
         this.webAssert = new WebAssert(wUtil);
     }
 
@@ -30,21 +33,14 @@ public class LoginPage {
         enterLogin(loginUser);
         enterPassword(passwordUser);
         clickSubmit();
-
-
-
-
-        //                // получить значение у тайтла страницы
-        //        String eTitle = "Log in - JIRA";
-        //        String aTitle = driver.getTitle();
-        //                // выполняем проверку
-        //        Assert.assertEquals(aTitle,);       assertEquals(aTitle, eTitle);
-
-        //        try {
-        //            Thread.sleep(5000);
-        //        } catch (InterruptedException e) {
-        //            e.printStackTrace();
-        //        }
+        // ожидание появления на странице текста "System Dashboard" отображаемого при успешном логине
+        wWait.waitForTextPresent("System Dashboard");
+        // ожидание после выполнения
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         //        // закрываем окно браузера
         //        driver.close();
     }

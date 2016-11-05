@@ -1,6 +1,7 @@
 package utils;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -14,21 +15,29 @@ public class WebUtils {
         this.driver = driver;
     }
 
-    //find web element on the page
+    public WebDriver getDriver() {
+        return driver;
+    }
+
+    //find web element on the page By.XPath
     public WebElement findByXpath(String xPath) {
-        // wUtil.findByXpath("");
         return this.driver.findElement(By.xpath(xPath));
     }
-
-    //wait for webElement until that appears( wait during 10 sec)
-    public WebElement waitWebElement(String xPath, long timeOutInSeconds) {
-        // wUtil.waitWebElement("", 5);
-        return (new WebDriverWait(driver, timeOutInSeconds))
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath(xPath)));
+    //find web element on the page By.id
+    public WebElement findById(String idElement) {
+        return this.driver.findElement(By.id(idElement));
+    }
+    //find web element on the page By.name
+    public WebElement findByName(String nameElement) {
+        return this.driver.findElement(By.name(nameElement));
     }
 
-    //return true if the Element is available on the page
-    public boolean isElementEnabled(String xPath, long timeOutInSeconds) {
-        return waitWebElement(xPath, timeOutInSeconds).isEnabled();
+    public void scrollPageUp(WebDriver driver){
+        JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("scroll(0, -250);");
     }
+
+
+
+
 }
