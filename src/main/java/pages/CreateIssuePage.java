@@ -46,7 +46,6 @@ public class CreateIssuePage {
 
         // ожидание появления на странице текста textSummaryIssue, заполненного в summary новой задачи
         wWait.waitForTextPresent(textSummaryIssue);
-
         //        // ожидание после выполнения
         //        try {
         //            Thread.sleep(2000);
@@ -138,7 +137,6 @@ public class CreateIssuePage {
         // для возможности последующего просмотра командой history
         Date d = new Date();
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
-        //FileManager.executedOperations.put(formatDate.format(d), FileManager.currentCommand);
         return formatDate.format(d);
     }
 }

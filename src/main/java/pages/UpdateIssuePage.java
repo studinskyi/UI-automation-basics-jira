@@ -86,78 +86,60 @@ public class UpdateIssuePage {
         // 1. create issue
         createIssuePage.createIssue();
         issueKey = createIssuePage.issueKey;
-        //        WebElement createButton = wUtil.waitWebElement("//*[@id='create_link']", 5);
-        //        createButton.click();
-        //        WebElement issueType = wUtil.waitWebElement("//*[@id='issuetype-field']", 5);
-        //        issueType.clear();
-        //        issueType.sendKeys("Bug");
-        //        issueType.sendKeys(Keys.ENTER);
+        // 2. add comment to issue
+        driver.get("http://soft.it-hillel.com.ua:8080/browse/" + issueKey);
+        WebElement buttonComment = wUtil.findByXpath("//*[@id='comment-issue']/span[1]");
+        //WebElement comment = driver.findElement(By.xpath("//*[@id='comment-issue']/span[1]"));
+        buttonComment.click();
+        WebElement commentTextArea = wWait.waitWebElement("//*[@id='comment']", 10);
+        commentTextArea.sendKeys(textNewComment);
+        //addComment.sendKeys(textNewComment, Keys.CONTROL, Keys.ENTER);
+        WebElement buttonAdd = wWait.waitWebElement("//*[@id='issue-comment-add-submit']", 10);
+        buttonAdd.click();
+
+        // ожидание появления на странице текста textNewComment после успешного добавления комментария в issue
+        wWait.waitForTextPresent(textNewComment);
+        //        // ожидание после выполнения
         //        try {
-        //            Thread.sleep(3000);
+        //            Thread.sleep(1000);
         //        } catch (InterruptedException e) {
         //            e.printStackTrace();
         //        }
-        //
-        //        // 2. add summary to new issue
-        //        WebElement summary = wUtil.waitWebElement("//*[@id='summary']", 10);
-        //        summary.clear();
-        //        summary.sendKeys("UI_test_Jira_lr11 " + getCurrenDateTimeString());
-        //
-        //        // 3. add assignee to new issue
-        //        WebElement assignee = wUtil.findByXpath("//*[@id='assignee-field']");
-        //        assignee.clear();
-        //        assignee.sendKeys("studinskyi", Keys.ENTER);
-        //
-        //        // 4. get IsueKey of new issue
-        //        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        //        issueKey = wUtil.findByXpath("//*[@id='aui-flag-container']/div/div/a").getAttribute("data-issue-key");
-        //        System.out.println(issueKey);
-
-        // 2. add comment to issue
-        driver.get("http://soft.it-hillel.com.ua:8080/browse/" + issueKey);
-        WebElement comment = wUtil.findByXpath("//*[@id='comment-issue']/span[1]");
-        //WebElement comment = driver.findElement(By.xpath("//*[@id='comment-issue']/span[1]"));
-        comment.click();
-        WebElement addComment = wWait.waitWebElement("//*[@id='comment']", 10);
-        //        WebElement addComment = (new WebDriverWait(driver, 10))
-        //                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='comment']")));
-        addComment.sendKeys(textNewComment, Keys.CONTROL, Keys.ENTER);
-
-        // ожидание после выполнения
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
-    public void updatePriority() {
+    public void updatePriorityInIssue() {
+        // 1. create issue
+        createIssuePage.createIssue();
+        issueKey = createIssuePage.issueKey;
+        // 2. update priority
         driver.get("http://soft.it-hillel.com.ua:8080/browse/" + issueKey);
-        WebElement priority = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='priority-val']")));
+        WebElement fieldPriority = wWait.waitWebElement("//*[@id='priority-val']", 10);
+        //        WebElement priority = (new WebDriverWait(driver, 10))
+        //                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='priority-val']")));
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        priority.click();
-        WebElement priorityChange = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='priority-field']")));
+        fieldPriority.click();
+        WebElement priorityChange = wWait.waitWebElement("//*[@id='priority-field']", 10);
+        //        WebElement priorityChange = (new WebDriverWait(driver, 10))
+        //                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='priority-field']")));
 
         priorityChange.clear();
+        priorityChange.sendKeys("Lowest", Keys.ENTER, Keys.ENTER);
 
-        priorityChange.sendKeys("Low", Keys.ENTER, Keys.ENTER);
-
-        // TODO assert priority low
-
+        // ожидание появления на странице текста textNewComment после успешного добавления комментария в issue
+        wWait.waitForTextPresent("Lowest");
     }
 
     public void getIssueKey() {
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        issueKey = driver
-                .findElement(By.xpath("//*[@id='aui-flag-container']/div/div/a"))
-                .getAttribute("data-issue-key");
-        System.out.println(issueKey);
+        createIssuePage.getIssueKeyOfNewIssue();
+        //        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        //        issueKey = driver
+        //                .findElement(By.xpath("//*[@id='aui-flag-container']/div/div/a"))
+        //                .getAttribute("data-issue-key");
+        //        System.out.println(issueKey);
     }
 
 

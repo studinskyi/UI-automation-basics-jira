@@ -109,14 +109,9 @@ public class JiraUITest {
         updateIssuePage.webAssert.assertIsElementEnabled("//*[@id='issue_summary_reporter_a.a.piluck']", 10);
         //Assert.assertEquals(driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled(), true);
 
-//        // 3. deleteting new test issue
-//        updateIssuePage.deleteIssue();
-//        //        driver.get("http://soft.it-hillel.com.ua:8080/browse/" + issueKey);
-//        //        wUtil.findByXpath("//*[@id='opsbar-operations_more']/span[1]").click();
-//        //        wUtil.findByXpath("//*[@id='delete-issue']/span").click();
-//        //        wUtil.findByXpath("//*[@id='delete-issue-submit']").click();
+        // 3. deleteting new test issue
+        updateIssuePage.deleteIssue();
 
-        //проверяем, какой поток
         System.out.println("updateReporterInIssue " + getCurrenDateTimeString());
         System.out.println("updateReporterInIssue - thread id: " + Thread.currentThread().getId());
     }
@@ -137,22 +132,45 @@ public class JiraUITest {
         updateIssuePage.webAssert.assertIsElementEnabled(assert_xPath, 10); // наличие элемента контейнера комментариев
         Assert.assertEquals(textToCampare, textNewComment); // равенство текста добавленного коментария, исходной формулировке
         //Assert.assertEquals(driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled(), true);
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        //        try {
+        //            Thread.sleep(5000);
+        //        } catch (InterruptedException e) {
+        //            e.printStackTrace();
+        //        }
 
         // 3. deleteting new test issue
         updateIssuePage.deleteIssue();
-        //        driver.get("http://soft.it-hillel.com.ua:8080/browse/" + issueKey);
-        //        wUtil.findByXpath("//*[@id='opsbar-operations_more']/span[1]").click();
-        //        wUtil.findByXpath("//*[@id='delete-issue']/span").click();
-        //        wUtil.findByXpath("//*[@id='delete-issue-submit']").click();
 
-        //проверяем, какой поток
         System.out.println("addCommentToIssue " + getCurrenDateTimeString());
         System.out.println("addCommentToIssue - thread id: " + Thread.currentThread().getId());
+    }
+
+    @Test(groups = "update", dependsOnMethods = "loginTest")
+    public void updatePriorityInIssue() {
+        // 1. добавление комментария в Issue
+        updateIssuePage.updatePriorityInIssue();
+
+        //        // 2. проверка Assert-тов
+        //        String assert_xPath = "//div[@id='issue_actions_container']/div[1]/div[1]/div[2]";
+        //        String textToCampare = updateIssuePage.wWait.waitWebElement(assert_xPath, 10).getText();
+        //        System.out.println("driver.getTitle() = " + driver.getTitle());
+        //        System.out.println(assert_xPath + ".getText() = " + textToCampare);
+        //        //driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled();
+        //        Assert.assertEquals(driver.getTitle().contains(updateIssuePage.issueKey), true); //проверка наличия в заголовке подстроки ключа issueKey "QAAUT-1676"
+        //        updateIssuePage.webAssert.assertIsElementEnabled(assert_xPath, 10); // наличие элемента контейнера комментариев
+        //        Assert.assertEquals(textToCampare, textNewComment); // равенство текста добавленного коментария, исходной формулировке
+        //        //Assert.assertEquals(driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled(), true);
+        //        //        try {
+        //        //            Thread.sleep(5000);
+        //        //        } catch (InterruptedException e) {
+        //        //            e.printStackTrace();
+        //        //        }
+
+        // 3. deleteting new test issue
+        updateIssuePage.deleteIssue();
+
+        System.out.println("updatePriorityInIssue " + getCurrenDateTimeString());
+        System.out.println("updatePriorityInIssue - thread id: " + Thread.currentThread().getId());
     }
 
 
@@ -168,7 +186,6 @@ public class JiraUITest {
         // для возможности последующего просмотра командой history
         Date d = new Date();
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
-        //FileManager.executedOperations.put(formatDate.format(d), FileManager.currentCommand);
         return formatDate.format(d);
     }
 
