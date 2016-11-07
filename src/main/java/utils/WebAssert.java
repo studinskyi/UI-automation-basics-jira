@@ -19,18 +19,21 @@ public class WebAssert {
         Assert.assertEquals(this.wWait.isElementEnabled(xPath, timeOutInSeconds), true);
     }
 
-    // проверяет наличие текста
-    public void assertTextPresent(String xPath, long timeOutInSeconds) {
-        //Assert.assertEquals(this.wUtil.isElementEnabled(xPath, timeOutInSeconds), true);
+    // проверяет наличие текста у какого-то UI элемента (в указанном xPath элементе на странице)
+    public void assertTextPresent(String xPath, long timeOutInSeconds, String TextToFind) {
+        String textToCampare = wWait.waitWebElement(xPath, 10).getText();
+        Assert.assertEquals(textToCampare, TextToFind);
     }
 
-    // проверяет наличие текста у какого-то UI элемента
-    public void assertText(String xPath, long timeOutInSeconds) {
-        //Assert.assertEquals(this.wUtil.isElementEnabled(xPath, timeOutInSeconds), true);
+    // проверяет наличие текста на странице
+    public void assertPageContainsText(String TextToFind) {
+        Assert.assertEquals(driver.getPageSource().contains(TextToFind), true);
     }
 
-    // проверяет корректность заголовка страницы
-    public void assertTitle(String xPath, long timeOutInSeconds) {
+    // проверяет что заголовок страницы содержит подстроку
+    public void assertTitleContainsText(String TextToFind) {
+        //System.out.println("driver.getTitle() = " + driver.getTitle());
+        Assert.assertEquals(driver.getTitle().contains(TextToFind), true); //проверка наличия в заголовке подстроки TextToFind
         //Assert.assertEquals(this.wUtil.isElementEnabled(xPath, timeOutInSeconds), true);
     }
 

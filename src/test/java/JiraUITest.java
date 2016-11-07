@@ -49,28 +49,29 @@ public class JiraUITest {
 
     @Test(groups = "login")
     public void loginTest() {
-        //        String eTitle = "Log in - JIRA";
-        //        String aTitle = "";
+        // 1. log in to jira
         loginPage.login(loginUser, passwordUser);
 
+        // 2.  проверка Assert-тов
         System.out.println("wUtil.elementIsEnabled(\"//*[@id='header-details-user-fullname']\", 10) = " + loginPage.wWait.isElementEnabled("//*[@id='header-details-user-fullname']", 10));
         loginPage.webAssert.assertIsElementEnabled("//*[@id='header-details-user-fullname']", 10);
-        //Assert.assertEquals(wUtil.isElementEnabled("//*[@id='header-details-user-fullname']", 10), true);
+        loginPage.webAssert.assertTitleContainsText("System Dashboard"); //проверка наличия в заголовке подстроки
+        loginPage.webAssert.assertPageContainsText("Welcome to JIRA");
 
         System.out.println("loginTest " + getCurrenDateTimeString());
         System.out.println("loginTest - thread id: " + Thread.currentThread().getId());
-        //        // закрываем окно браузера
-        //        driver.close();
     }
 
     @Test(groups = "login", dependsOnMethods = "loginTest")
     public void logoutTest() {
+        // 1. log in to jira
         logoutPage.logout();
+
+        // 2.  проверка Assert-тов
+        loginPage.webAssert.assertTitleContainsText("Logout - Jira"); //проверка наличия в заголовке подстроки
 
         System.out.println("logoutTest " + getCurrenDateTimeString());
         System.out.println("logoutTest - thread id: " + Thread.currentThread().getId());
-        //        // закрываем окно браузера
-        //        driver.close();
     }
 
     @Test(groups = "issue", dependsOnMethods = "loginTest")
@@ -80,12 +81,11 @@ public class JiraUITest {
         createIssuePage.createIssue();
 
         // 2.  проверка Assert-тов
-        //<a class="issue-link" data-issue-key="QAAUT-1737" href="/browse/QAAUT-1737" id="key-val" rel="15168">QAAUT-1737</a>
         System.out.println("wUtil.elementIsEnabled(\"//*[@id='key-val']\", 10) = " + loginPage.wWait.isElementEnabled("//*[@id='key-val']", 10));
         createIssuePage.webAssert.assertIsElementEnabled("//*[@id='key-val']", 10);
-        Assert.assertEquals(driver.getTitle().contains(createIssuePage.issueKey), true); //проверка наличия в заголовке подстроки "QAAUT-1676"
         createIssuePage.webAssert.assertIsElementEnabled("//*[@data-issue-key='" + createIssuePage.issueKey + "']", 10);
-        //Assert.assertEquals(wUtil.isElementEnabled("//*[@id='header-details-user-fullname']", 10), true);
+        createIssuePage.webAssert.assertTitleContainsText(updateIssuePage.issueKey); //проверка наличия в заголовке подстроки ключа issueKey "QAAUT-1676"
+        createIssuePage.webAssert.assertTextPresent("//*[@id='summary-val']",10, createIssuePage.textSummaryIssue); // наличие на странице строки
 
         // 3. deleteting new test issue
         createIssuePage.deleteIssue();
@@ -103,9 +103,9 @@ public class JiraUITest {
         System.out.println("driver.findElement(By.xpath(\"//*[@id='issue_summary_reporter_a.a.piluck']\")).isEnabled() = " + driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled());
         System.out.println("driver.findElement(By.xpath(\"//*[@id='issue_summary_reporter_a.a.piluck']\")).getText() = " + driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).getText());
         System.out.println("driver.getTitle() = " + driver.getTitle());
-        //<span class="user-hover" id="issue_summary_reporter_a.a.piluck" rel="a.a.piluck">
         //driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled();
-        Assert.assertEquals(driver.getTitle().contains(updateIssuePage.issueKey), true); //проверка наличия в заголовке подстроки ключа issueKey "QAAUT-1676"
+        //Assert.assertEquals(driver.getTitle().contains(updateIssuePage.issueKey), true); //проверка наличия в заголовке подстроки ключа issueKey "QAAUT-1676"
+        updateIssuePage.webAssert.assertTitleContainsText(updateIssuePage.issueKey); //проверка наличия в заголовке подстроки ключа issueKey "QAAUT-1676"
         updateIssuePage.webAssert.assertIsElementEnabled("//*[@id='issue_summary_reporter_a.a.piluck']", 10);
         //Assert.assertEquals(driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled(), true);
 
@@ -123,20 +123,15 @@ public class JiraUITest {
         updateIssuePage.addCommentToIssue(textNewComment);
 
         // 2. проверка Assert-тов
-        String assert_xPath = "//div[@id='issue_actions_container']/div[1]/div[1]/div[2]";
-        String textToCampare = updateIssuePage.wWait.waitWebElement(assert_xPath, 10).getText();
-        System.out.println("driver.getTitle() = " + driver.getTitle());
-        System.out.println(assert_xPath + ".getText() = " + textToCampare);
-        //driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled();
-        Assert.assertEquals(driver.getTitle().contains(updateIssuePage.issueKey), true); //проверка наличия в заголовке подстроки ключа issueKey "QAAUT-1676"
-        updateIssuePage.webAssert.assertIsElementEnabled(assert_xPath, 10); // наличие элемента контейнера комментариев
-        Assert.assertEquals(textToCampare, textNewComment); // равенство текста добавленного коментария, исходной формулировке
-        //Assert.assertEquals(driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled(), true);
-        //        try {
-        //            Thread.sleep(5000);
-        //        } catch (InterruptedException e) {
-        //            e.printStackTrace();
-        //        }
+        String xPath_newComment = "//div[@id='issue_actions_container']/div[1]/div[1]/div[2]";
+        //String textToCampare = updateIssuePage.wWait.waitWebElement(assert_xPath, 10).getText();
+        //System.out.println("driver.getTitle() = " + driver.getTitle());
+        //System.out.println(assert_xPath + ".getText() = " + textToCampare);
+        //Assert.assertEquals(driver.getTitle().contains(updateIssuePage.issueKey), true); //проверка наличия в заголовке подстроки ключа issueKey "QAAUT-1676"
+        updateIssuePage.webAssert.assertTitleContainsText(updateIssuePage.issueKey); //проверка наличия в заголовке подстроки ключа issueKey "QAAUT-1676"
+        updateIssuePage.webAssert.assertIsElementEnabled(xPath_newComment, 10); // наличие элемента контейнера комментариев
+        //Assert.assertEquals(textToCampare, textNewComment); // равенство текста добавленного коментария, исходной формулировке
+        updateIssuePage.webAssert.assertTextPresent(xPath_newComment, 10, textNewComment); // равенство текста добавленного коментария, исходной формулировке
 
         // 3. deleteting new test issue
         updateIssuePage.deleteIssue();
@@ -166,8 +161,8 @@ public class JiraUITest {
         //        //            e.printStackTrace();
         //        //        }
 
-        // 3. deleteting new test issue
-        updateIssuePage.deleteIssue();
+//        // 3. deleteting new test issue
+//        updateIssuePage.deleteIssue();
 
         System.out.println("updatePriorityInIssue " + getCurrenDateTimeString());
         System.out.println("updatePriorityInIssue - thread id: " + Thread.currentThread().getId());

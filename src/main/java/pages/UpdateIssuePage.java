@@ -114,8 +114,6 @@ public class UpdateIssuePage {
         // 2. update priority
         driver.get("http://soft.it-hillel.com.ua:8080/browse/" + issueKey);
         WebElement fieldPriority = wWait.waitWebElement("//*[@id='priority-val']", 10);
-        //        WebElement priority = (new WebDriverWait(driver, 10))
-        //                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='priority-val']")));
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
@@ -123,9 +121,6 @@ public class UpdateIssuePage {
         }
         fieldPriority.click();
         WebElement priorityChange = wWait.waitWebElement("//*[@id='priority-field']", 10);
-        //        WebElement priorityChange = (new WebDriverWait(driver, 10))
-        //                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='priority-field']")));
-
         priorityChange.clear();
         priorityChange.sendKeys("Lowest", Keys.ENTER, Keys.ENTER);
 
