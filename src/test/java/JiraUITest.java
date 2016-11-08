@@ -12,6 +12,7 @@ import pages.UpdateIssuePage;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.assertEquals;
 
@@ -31,27 +32,22 @@ public class JiraUITest {
 
     @BeforeTest(groups = {"login", "issue", "update"})
     public void beforeStartTests() {
-        driver = new ChromeDriver();
-        loginPage = new LoginPage(driver);
-        logoutPage = new LogoutPage(driver);
-        createIssuePage = new CreateIssuePage(driver);
-        updateIssuePage = new UpdateIssuePage(driver);
-
-        //        // запустить броузер и перейти по адресу
-        //        driver.get("http://soft.it-hillel.com.ua:8080/login.jsp");
-        //        //full-open browser window
-        //        driver.manage().window().maximize();
-        //        LoginPage loginPage = new LoginPage(driver);
-        //        loginPage.enterLogin(loginUser);
-        //        loginPage.enterPassword(passwordUser);
-        //        loginPage.clickSubmit();
+        //driver = new ChromeDriver(); // new ChromeDriver() или new FirefoxDriver();
+        initWebDriver();
+        this.loginPage = new LoginPage(driver);
+        this.logoutPage = new LogoutPage(driver);
+        this.createIssuePage = new CreateIssuePage(driver);
+        this.updateIssuePage = new UpdateIssuePage(driver);
+    }
+    public void initWebDriver() {
+        // System.setProperty("webdriver.chrome.driver", "geckodriver.exe"); // для случая с Firefox
+        this.driver = new ChromeDriver(); // new ChromeDriver() или new FirefoxDriver();
     }
 
     @Test(groups = "login")
     public void loginTest() {
         // 1. log in to jira
         loginPage.login(loginUser, passwordUser);
-
         // 2.  проверка Assert-тов
         System.out.println("wUtil.elementIsEnabled(\"//*[@id='header-details-user-fullname']\", 10) = " + loginPage.wWait.isElementEnabled("//*[@id='header-details-user-fullname']", 10));
         loginPage.webAssert.assertIsElementEnabled("//*[@id='header-details-user-fullname']", 10);
@@ -66,9 +62,9 @@ public class JiraUITest {
     public void logoutTest() {
         // 1. log in to jira
         logoutPage.logout();
-
         // 2.  проверка Assert-тов
-        loginPage.webAssert.assertTitleContainsText("Logout - Jira"); //проверка наличия в заголовке подстроки
+        loginPage.webAssert.assertTitleContainsText("Logout"); //проверка наличия в заголовке подстроки
+        loginPage.webAssert.assertPageContainsText("You are now logged out");
 
         System.out.println("logoutTest " + getCurrenDateTimeString());
         System.out.println("logoutTest - thread id: " + Thread.currentThread().getId());
@@ -79,12 +75,12 @@ public class JiraUITest {
     public void createIssue() {
         // 1. create new testing issue
         createIssuePage.createIssue();
-
         // 2.  проверка Assert-тов
         System.out.println("wUtil.elementIsEnabled(\"//*[@id='key-val']\", 10) = " + loginPage.wWait.isElementEnabled("//*[@id='key-val']", 10));
         createIssuePage.webAssert.assertIsElementEnabled("//*[@id='key-val']", 10);
         createIssuePage.webAssert.assertIsElementEnabled("//*[@data-issue-key='" + createIssuePage.issueKey + "']", 10);
         createIssuePage.webAssert.assertTitleContainsText(updateIssuePage.issueKey); //проверка наличия в заголовке подстроки ключа issueKey "QAAUT-1676"
+        createIssuePage.webAssert.assertTitleContainsText(createIssuePage.textSummaryIssue);
         createIssuePage.webAssert.assertTextPresent("//*[@id='summary-val']",10, createIssuePage.textSummaryIssue); // наличие на странице строки
 
         // 3. deleteting new test issue
@@ -98,16 +94,14 @@ public class JiraUITest {
     public void updateReporterInIssue() {
         // 1. обновление поля Reporter в Issue
         updateIssuePage.updateReporterInIssue(newReporterLogin, newReporterName);
-
         // 2. проверка Assert-тов
         System.out.println("driver.findElement(By.xpath(\"//*[@id='issue_summary_reporter_a.a.piluck']\")).isEnabled() = " + driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled());
         System.out.println("driver.findElement(By.xpath(\"//*[@id='issue_summary_reporter_a.a.piluck']\")).getText() = " + driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).getText());
         System.out.println("driver.getTitle() = " + driver.getTitle());
-        //driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled();
-        //Assert.assertEquals(driver.getTitle().contains(updateIssuePage.issueKey), true); //проверка наличия в заголовке подстроки ключа issueKey "QAAUT-1676"
         updateIssuePage.webAssert.assertTitleContainsText(updateIssuePage.issueKey); //проверка наличия в заголовке подстроки ключа issueKey "QAAUT-1676"
         updateIssuePage.webAssert.assertIsElementEnabled("//*[@id='issue_summary_reporter_a.a.piluck']", 10);
-        //Assert.assertEquals(driver.findElement(By.xpath("//*[@id='issue_summary_reporter_a.a.piluck']")).isEnabled(), true);
+        updateIssuePage.webAssert.assertPageContainsText(newReporterName);
+        updateIssuePage.webAssert.assertPageContainsText(newReporterLogin);
 
         // 3. deleteting new test issue
         updateIssuePage.deleteIssue();
@@ -124,14 +118,10 @@ public class JiraUITest {
 
         // 2. проверка Assert-тов
         String xPath_newComment = "//div[@id='issue_actions_container']/div[1]/div[1]/div[2]";
-        //String textToCampare = updateIssuePage.wWait.waitWebElement(assert_xPath, 10).getText();
-        //System.out.println("driver.getTitle() = " + driver.getTitle());
-        //System.out.println(assert_xPath + ".getText() = " + textToCampare);
-        //Assert.assertEquals(driver.getTitle().contains(updateIssuePage.issueKey), true); //проверка наличия в заголовке подстроки ключа issueKey "QAAUT-1676"
         updateIssuePage.webAssert.assertTitleContainsText(updateIssuePage.issueKey); //проверка наличия в заголовке подстроки ключа issueKey "QAAUT-1676"
         updateIssuePage.webAssert.assertIsElementEnabled(xPath_newComment, 10); // наличие элемента контейнера комментариев
-        //Assert.assertEquals(textToCampare, textNewComment); // равенство текста добавленного коментария, исходной формулировке
         updateIssuePage.webAssert.assertTextPresent(xPath_newComment, 10, textNewComment); // равенство текста добавленного коментария, исходной формулировке
+        updateIssuePage.webAssert.assertPageContainsText(textNewComment);
 
         // 3. deleteting new test issue
         updateIssuePage.deleteIssue();

@@ -2,10 +2,13 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import utils.WebAssert;
 import utils.WebUtils;
 import utils.WebWait;
+
+import java.util.concurrent.TimeUnit;
 
 public class LoginPage {
 
@@ -23,13 +26,21 @@ public class LoginPage {
         this.webAssert = new WebAssert(wUtil);
     }
 
-    public void login(String loginUser, String passwordUser) {
-        // запустить броузер и перейти по адресу
-        //this.driver.get("http://soft.it-hillel.com.ua:8080/login.jsp");
+    public void openLoginPage() {
+        //driver = new ChromeDriver();
+        this.driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         this.driver.get(loginJira_URL);
-        //full-open browser window
+        //driver.get("http://soft.it-hillel.com.ua:8080/login.jsp");
         this.driver.manage().window().maximize();
-        //LoginPage loginPage = new LoginPage(this.driver);
+    }
+
+    public void login(String loginUser, String passwordUser) {
+        // инициализация веб-драйвера, запуск броузера и перейти по адресу loginJira_URL
+        openLoginPage();
+        //        //river.get(loginJira_URL);
+        //        //full-open browser window
+        //        this.driver.manage().window().maximize();
+        //        //LoginPage loginPage = new LoginPage(this.driver);
         enterLogin(loginUser);
         enterPassword(passwordUser);
         clickSubmit();
@@ -37,7 +48,7 @@ public class LoginPage {
         wWait.waitForTextPresent("System Dashboard");
         // ожидание после выполнения
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
