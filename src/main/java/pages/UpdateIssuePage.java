@@ -99,15 +99,14 @@ public class UpdateIssuePage {
 
         // ожидание появления на странице текста textNewComment после успешного добавления комментария в issue
         wWait.waitForTextPresent(textNewComment);
-        //        // ожидание после выполнения
-        //        try {
-        //            Thread.sleep(1000);
-        //        } catch (InterruptedException e) {
-        //            e.printStackTrace();
-        //        }
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void updatePriorityInIssue() {
+    public void updatePriorityInIssue(String newTextPriority) {
         // 1. create issue
         createIssuePage.createIssue();
         issueKey = createIssuePage.issueKey;
@@ -122,10 +121,16 @@ public class UpdateIssuePage {
         fieldPriority.click();
         WebElement priorityChange = wWait.waitWebElement("//*[@id='priority-field']", 10);
         priorityChange.clear();
-        priorityChange.sendKeys("Lowest", Keys.ENTER, Keys.ENTER);
+        priorityChange.sendKeys(newTextPriority, Keys.ENTER, Keys.ENTER);
+        //priorityChange.sendKeys("Lowest", Keys.ENTER, Keys.ENTER);
 
         // ожидание появления на странице текста textNewComment после успешного добавления комментария в issue
-        wWait.waitForTextPresent("Lowest");
+        wWait.waitForTextPresent(newTextPriority);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void getIssueKey() {

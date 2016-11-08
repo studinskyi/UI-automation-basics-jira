@@ -31,7 +31,6 @@ public class LogoutPage {
         logoutList.click();
         WebElement LogoutButton = wWait.waitWebElement(xpath_buttonLogOut, 10);
         LogoutButton.click();
-        //driver.findElement(By.xpath("//*[@id='log_out']")).click();
 
         // ожидание появления на странице текста "You are now logged out" отображаемого при успешном логауте
         wWait.waitForTextPresent("You are now logged out");

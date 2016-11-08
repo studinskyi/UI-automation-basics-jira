@@ -37,10 +37,6 @@ public class LoginPage {
     public void login(String loginUser, String passwordUser) {
         // инициализация веб-драйвера, запуск броузера и перейти по адресу loginJira_URL
         openLoginPage();
-        //        //river.get(loginJira_URL);
-        //        //full-open browser window
-        //        this.driver.manage().window().maximize();
-        //        //LoginPage loginPage = new LoginPage(this.driver);
         enterLogin(loginUser);
         enterPassword(passwordUser);
         clickSubmit();
@@ -60,14 +56,11 @@ public class LoginPage {
     public void enterLogin(String loginUser) {
         wUtil.findByXpath("//input[@id='login-form-username']").sendKeys(loginUser);
         //driver.findElement(By.xpath("//input[@id='login-form-username']")).sendKeys(loginUser);
-        //$x("//input[@id='login-form-username']")
-        //driver.findElement(By.xpath("//input[@id='login-form-username']")).sendKeys("studinskyi");
     }
 
     public void enterPassword(String passwordUser) {
         wUtil.findByXpath("//input[@id='login-form-password']").sendKeys(passwordUser);
         //driver.findElement(By.xpath("//input[@id='login-form-password']")).sendKeys(passwordUser);
-        //driver.findElement(By.xpath("//input[@id='login-form-password']")).sendKeys("dima_st");
     }
 
     public void clickSubmit() {

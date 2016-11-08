@@ -46,12 +46,11 @@ public class CreateIssuePage {
 
         // ожидание появления на странице текста textSummaryIssue, заполненного в summary новой задачи
         wWait.waitForTextPresent(textSummaryIssue);
-        //        // ожидание после выполнения
-        //        try {
-        //            Thread.sleep(2000);
-        //        } catch (InterruptedException e) {
-        //            e.printStackTrace();
-        //        }
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void createNewBug() {
@@ -126,11 +125,11 @@ public class CreateIssuePage {
 
         // ожидание появления на странице текста issueKey + " has been deleted" после удаления issue
         wWait.waitForTextPresent(issueKey + " has been deleted");
-        //        try {
-        //            Thread.sleep(1000);
-        //        } catch (InterruptedException e) {
-        //            e.printStackTrace();
-        //        }
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getCurrenDateTimeString() {
