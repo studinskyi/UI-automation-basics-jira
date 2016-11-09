@@ -1,0 +1,41 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="test_Suite_API_lr10" parallel="tests" thread-count="3">
+    <!--<suite name="test_Suite_API_lr10" parallel="methods" thread-count="2"> -->
+    <test name="Issue_Test_API_lr10">
+        <groups>
+            <run>
+                <include name="Issue"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="JiraUITest"/>
+        </classes>
+    </test>
+
+    <test name="Search_Test_API_lr10">
+        <groups>
+            <run>
+                <include name="Search"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="JiraUITest"/>
+        </classes>
+    </test>
+
+    <test name="Comment_Test_API_lr10">
+        <groups>
+            <run>
+                <include name="Comment"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="JiraUITest"/>
+        </classes>
+    </test>
+
+    <listeners>
+        <listener class-name="org.uncommons.reportng.HTMLReporter"/>
+        <listener class-name="org.uncommons.reportng.JUnitXMLReporter"/>
+    </listeners>
+</suite>

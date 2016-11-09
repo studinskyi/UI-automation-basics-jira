@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite" thread-count="3" parallel="tests" >
+
+    <test name="Grouping tests - Update">
+        <groups>
+            <run>
+                <include name="update"/>
+            </run>
+        </groups>
+
+        <classes>
+            <class name="JiraUITest"/>
+        </classes>
+    </test>
+
+</suite>
+<!--
+ <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Parallel test suite" parallel="methods" thread-count="2" >
+
+
+    <test name="Issue">
+        <classes>
+            <class name="JiraUITests.JiraUI"/>
+        </classes>
+    </test>
+
+</suite>
+ -->

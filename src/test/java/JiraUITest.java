@@ -9,6 +9,10 @@ import pages.CreateIssuePage;
 import pages.LoginPage;
 import pages.LogoutPage;
 import pages.UpdateIssuePage;
+import ru.yandex.qatools.allure.annotations.Features;
+import ru.yandex.qatools.allure.annotations.Issue;
+import ru.yandex.qatools.allure.annotations.Stories;
+import ru.yandex.qatools.allure.annotations.TestCaseId;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -71,8 +75,10 @@ public class JiraUITest {
         System.out.println("logoutTest - thread id: " + Thread.currentThread().getId());
     }
 
+//    @TestCaseId("TMS-1")
+//    @Features("Issue")
+//    @Stories({"CRUDIssue"})
     @Test(groups = "issue", dependsOnMethods = "loginTest")
-    //@Test(dependsOnMethods = "loginTest")
     public void createIssue() {
         // 1. create new testing issue
         createIssuePage.createIssue();
@@ -91,6 +97,30 @@ public class JiraUITest {
         System.out.println("createIssue - thread id: " + Thread.currentThread().getId());
     }
 
+    @Test(groups = "issue", dependsOnMethods = "loginTest")
+    public void deleteIssue() {
+        // 1. create new testing issue
+        createIssuePage.createIssue();
+
+        // 3. deleteting new test issue
+        createIssuePage.deleteIssue();
+
+        // 2.  проверка Assert-тов
+//        createIssuePage.webAssert.assertIsElementEnabled("//*[@id='key-val']", 10);
+//        createIssuePage.webAssert.assertIsElementEnabled("//*[@data-issue-key='" + createIssuePage.issueKey + "']", 10);
+//        createIssuePage.webAssert.assertTitleContainsText(updateIssuePage.issueKey); //проверка наличия в заголовке подстроки ключа issueKey "QAAUT-1676"
+//        createIssuePage.webAssert.assertTitleContainsText(createIssuePage.textSummaryIssue);
+//        createIssuePage.webAssert.assertTextPresent("//*[@id='summary-val']", 10, createIssuePage.textSummaryIssue); // наличие на странице строки
+        updateIssuePage.webAssert.assertPageContainsText("has been deleted");
+
+        //
+
+        System.out.println("createIssue " + getCurrenDateTimeString());
+        System.out.println("createIssue - thread id: " + Thread.currentThread().getId());
+    }
+
+//    @TestCaseId("TMS-2")
+//    @Issue("CEV-9933") // Это ссылка на баг
     @Test(groups = "update", dependsOnMethods = "loginTest")
     public void updateReporterInIssue() {
         // 1. обновление поля Reporter в Issue
@@ -111,6 +141,9 @@ public class JiraUITest {
         System.out.println("updateReporterInIssue - thread id: " + Thread.currentThread().getId());
     }
 
+//    @TestCaseId("TMS-2")
+//    @Features("Issue")
+//    @Stories({"CRUDIssue"})
     @Test(groups = "update", dependsOnMethods = "loginTest")
     public void addCommentToIssue() {
         // 1. добавление комментария в Issue
@@ -156,8 +189,8 @@ public class JiraUITest {
     @AfterTest
     public void afterEndTests() {
 
-        //        driver.close();
-        //        driver.quit();
+//                driver.close();
+//                driver.quit();
 
     }
 
