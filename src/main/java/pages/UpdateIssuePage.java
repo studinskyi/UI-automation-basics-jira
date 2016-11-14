@@ -171,7 +171,6 @@ public class UpdateIssuePage {
 
 
     public String getCurrenDateTimeString() {
-        // для возможности последующего просмотра командой history
         Date d = new Date();
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
         //FileManager.executedOperations.put(formatDate.format(d), FileManager.currentCommand);

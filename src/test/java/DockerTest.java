@@ -105,14 +105,12 @@ public class DockerTest {
     }
 
     public String getCurrenDateTimeToNameFile() {
-        // для возможности последующего просмотра командой history
         Date d = new Date();
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyyMMdd_HH_mm_ss");
         return formatDate.format(d);
     }
 
     public String getCurrenDateTimeString() {
-        // для возможности последующего просмотра командой history
         Date d = new Date();
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
         return formatDate.format(d);

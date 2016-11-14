@@ -195,7 +195,6 @@ public class JiraUITest {
     }
 
     public String getCurrenDateTimeString() {
-        // для возможности последующего просмотра командой history
         Date d = new Date();
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
         return formatDate.format(d);
