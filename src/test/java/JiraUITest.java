@@ -75,7 +75,7 @@ public class JiraUITest {
         System.out.println("logoutTest - thread id: " + Thread.currentThread().getId());
     }
 
-//    @TestCaseId("TMS-1")
+    //    @TestCaseId("TMS-1")
 //    @Features("Issue")
 //    @Stories({"CRUDIssue"})
     @Test(groups = "issue", dependsOnMethods = "loginTest")
@@ -119,7 +119,7 @@ public class JiraUITest {
         System.out.println("createIssue - thread id: " + Thread.currentThread().getId());
     }
 
-//    @TestCaseId("TMS-2")
+    //    @TestCaseId("TMS-2")
 //    @Issue("CEV-9933") // Это ссылка на баг
     @Test(groups = "update", dependsOnMethods = "loginTest")
     public void updateReporterInIssue() {
@@ -141,7 +141,7 @@ public class JiraUITest {
         System.out.println("updateReporterInIssue - thread id: " + Thread.currentThread().getId());
     }
 
-//    @TestCaseId("TMS-2")
+    //    @TestCaseId("TMS-2")
 //    @Features("Issue")
 //    @Stories({"CRUDIssue"})
     @Test(groups = "update", dependsOnMethods = "loginTest")
@@ -188,10 +188,8 @@ public class JiraUITest {
 
     @AfterTest
     public void afterEndTests() {
-
-//                driver.close();
-//                driver.quit();
-
+        driver.close();
+        driver.quit();
     }
 
     public String getCurrenDateTimeString() {
