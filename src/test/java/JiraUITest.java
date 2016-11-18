@@ -49,7 +49,7 @@ public class JiraUITest {
         this.driver = new ChromeDriver(); // new ChromeDriver() или new FirefoxDriver();
     }
 
-    @Test(groups = "login")
+    @Test(groups = {"login", "issue", "update"})
     public void loginTest() {
         // 1. log in to jira
         loginPage.login(loginUser, passwordUser);

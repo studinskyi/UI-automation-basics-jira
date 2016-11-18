@@ -1,14 +1,34 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Suite" thread-count="3" parallel="tests" >
+<suite name="Suite_LR11" parallel="tests" thread-count="3">
 
-    <test name="Grouping tests - Update">
+    <test name="Grouping tests - update">
         <groups>
             <run>
                 <include name="update"/>
             </run>
         </groups>
+        <classes>
+            <class name="JiraUITest"/>
+        </classes>
+    </test>
 
+    <test name="Grouping tests - issue">
+        <groups>
+            <run>
+                <include name="issue"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="JiraUITest"/>
+        </classes>
+    </test>
+
+    <test name="Grouping tests - login">
+        <groups>
+            <run>
+                <include name="login"/>
+            </run>
+        </groups>
         <classes>
             <class name="JiraUITest"/>
         </classes>
