@@ -13,6 +13,7 @@ import ru.yandex.qatools.allure.annotations.Features;
 import ru.yandex.qatools.allure.annotations.Issue;
 import ru.yandex.qatools.allure.annotations.Stories;
 import ru.yandex.qatools.allure.annotations.TestCaseId;
+import utils.WebDate;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -59,7 +60,7 @@ public class JiraUITest {
         loginPage.webAssert.assertTitleContainsText("System Dashboard"); //проверка наличия в заголовке подстроки
         loginPage.webAssert.assertPageContainsText("Welcome to JIRA");
 
-        System.out.println("loginTest " + getCurrenDateTimeString());
+        System.out.println("loginTest " + WebDate.getCurrenDateTimeString());
         System.out.println("loginTest - thread id: " + Thread.currentThread().getId());
     }
 
@@ -71,7 +72,7 @@ public class JiraUITest {
         loginPage.webAssert.assertTitleContainsText("Logout"); //проверка наличия в заголовке подстроки
         loginPage.webAssert.assertPageContainsText("You are now logged out");
 
-        System.out.println("logoutTest " + getCurrenDateTimeString());
+        System.out.println("logoutTest " + WebDate.getCurrenDateTimeString());
         System.out.println("logoutTest - thread id: " + Thread.currentThread().getId());
     }
 
@@ -93,7 +94,7 @@ public class JiraUITest {
         // 3. deleteting new test issue
         createIssuePage.deleteIssue();
 
-        System.out.println("createIssue " + getCurrenDateTimeString());
+        System.out.println("createIssue " + WebDate.getCurrenDateTimeString());
         System.out.println("createIssue - thread id: " + Thread.currentThread().getId());
     }
 
@@ -115,7 +116,7 @@ public class JiraUITest {
 
         //
 
-        System.out.println("createIssue " + getCurrenDateTimeString());
+        System.out.println("createIssue " + WebDate.getCurrenDateTimeString());
         System.out.println("createIssue - thread id: " + Thread.currentThread().getId());
     }
 
@@ -137,7 +138,7 @@ public class JiraUITest {
         // 3. deleteting new test issue
         updateIssuePage.deleteIssue();
 
-        System.out.println("updateReporterInIssue " + getCurrenDateTimeString());
+        System.out.println("updateReporterInIssue " + WebDate.getCurrenDateTimeString());
         System.out.println("updateReporterInIssue - thread id: " + Thread.currentThread().getId());
     }
 
@@ -147,7 +148,7 @@ public class JiraUITest {
     @Test(groups = "update", dependsOnMethods = "loginTest")
     public void addCommentToIssue() {
         // 1. добавление комментария в Issue
-        String textNewComment = "add comment UI for lr11 " + getCurrenDateTimeString();
+        String textNewComment = "add comment UI for lr11 " + WebDate.getCurrenDateTimeString();
         updateIssuePage.addCommentToIssue(textNewComment);
 
         // 2. проверка Assert-тов
@@ -160,7 +161,7 @@ public class JiraUITest {
         // 3. deleteting new test issue
         updateIssuePage.deleteIssue();
 
-        System.out.println("addCommentToIssue " + getCurrenDateTimeString());
+        System.out.println("addCommentToIssue " + WebDate.getCurrenDateTimeString());
         System.out.println("addCommentToIssue - thread id: " + Thread.currentThread().getId());
     }
 
@@ -181,7 +182,7 @@ public class JiraUITest {
         // 3. deleteting new test issue
         updateIssuePage.deleteIssue();
 
-        System.out.println("updatePriorityInIssue " + getCurrenDateTimeString());
+        System.out.println("updatePriorityInIssue " + WebDate.getCurrenDateTimeString());
         System.out.println("updatePriorityInIssue - thread id: " + Thread.currentThread().getId());
     }
 
@@ -192,11 +193,11 @@ public class JiraUITest {
         driver.quit();
     }
 
-    public String getCurrenDateTimeString() {
-        Date d = new Date();
-        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
-        return formatDate.format(d);
-    }
+    //    public String getCurrenDateTimeString() {
+    //        Date d = new Date();
+    //        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+    //        return formatDate.format(d);
+    //    }
 
 }
 

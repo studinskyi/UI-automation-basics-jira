@@ -170,12 +170,12 @@ public class UpdateIssuePage {
     }
 
 
-    public String getCurrenDateTimeString() {
-        Date d = new Date();
-        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
-        //FileManager.executedOperations.put(formatDate.format(d), FileManager.currentCommand);
-        return formatDate.format(d);
-    }
+    //    public String getCurrenDateTimeString() {
+    //        Date d = new Date();
+    //        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+    //        //FileManager.executedOperations.put(formatDate.format(d), FileManager.currentCommand);
+    //        return formatDate.format(d);
+    //    }
 
 
 }

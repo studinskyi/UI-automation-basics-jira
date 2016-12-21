@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.WebAssert;
+import utils.WebDate;
 import utils.WebUtils;
 import utils.WebWait;
 
@@ -73,7 +74,7 @@ public class CreateIssuePage {
     public void addSummaryToIssue() {
         WebElement summary = wWait.waitWebElement("//*[@id='summary']", 10);
         summary.clear();
-        textSummaryIssue = "UI_test_Jira_lr11 " + getCurrenDateTimeString();
+        textSummaryIssue = "UI_test_Jira_lr11 " + WebDate.getCurrenDateTimeString();
         summary.sendKeys(textSummaryIssue);
         try {
             Thread.sleep(500);
@@ -132,10 +133,10 @@ public class CreateIssuePage {
         }
     }
 
-    public String getCurrenDateTimeString() {
-        // для возможности последующего просмотра командой history
-        Date d = new Date();
-        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
-        return formatDate.format(d);
-    }
+    //    public String getCurrenDateTimeString() {
+    //        // для возможности последующего просмотра командой history
+    //        Date d = new Date();
+    //        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+    //        return formatDate.format(d);
+    //    }
 }
