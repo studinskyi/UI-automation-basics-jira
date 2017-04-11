@@ -1,7 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -9,15 +8,7 @@ import pages.CreateIssuePage;
 import pages.LoginPage;
 import pages.LogoutPage;
 import pages.UpdateIssuePage;
-import ru.yandex.qatools.allure.annotations.Features;
-import ru.yandex.qatools.allure.annotations.Issue;
-import ru.yandex.qatools.allure.annotations.Stories;
-import ru.yandex.qatools.allure.annotations.TestCaseId;
 import utils.WebDate;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.assertEquals;
 
@@ -60,7 +51,7 @@ public class JiraUITest {
         loginPage.webAssert.assertTitleContainsText("System Dashboard"); //проверка наличия в заголовке подстроки
         loginPage.webAssert.assertPageContainsText("Welcome to JIRA");
 
-        System.out.println("loginTest " + WebDate.getCurrenDateTimeString());
+        System.out.println("loginTest " + WebDate.getCurrentDateTimeString());
         System.out.println("loginTest - thread id: " + Thread.currentThread().getId());
     }
 
@@ -72,7 +63,7 @@ public class JiraUITest {
         loginPage.webAssert.assertTitleContainsText("Logout"); //проверка наличия в заголовке подстроки
         loginPage.webAssert.assertPageContainsText("You are now logged out");
 
-        System.out.println("logoutTest " + WebDate.getCurrenDateTimeString());
+        System.out.println("logoutTest " + WebDate.getCurrentDateTimeString());
         System.out.println("logoutTest - thread id: " + Thread.currentThread().getId());
     }
 
@@ -94,7 +85,7 @@ public class JiraUITest {
         // 3. deleteting new test issue
         createIssuePage.deleteIssue();
 
-        System.out.println("createIssue " + WebDate.getCurrenDateTimeString());
+        System.out.println("createIssue " + WebDate.getCurrentDateTimeString());
         System.out.println("createIssue - thread id: " + Thread.currentThread().getId());
     }
 
@@ -116,7 +107,7 @@ public class JiraUITest {
 
         //
 
-        System.out.println("createIssue " + WebDate.getCurrenDateTimeString());
+        System.out.println("createIssue " + WebDate.getCurrentDateTimeString());
         System.out.println("createIssue - thread id: " + Thread.currentThread().getId());
     }
 
@@ -138,7 +129,7 @@ public class JiraUITest {
         // 3. deleteting new test issue
         updateIssuePage.deleteIssue();
 
-        System.out.println("updateReporterInIssue " + WebDate.getCurrenDateTimeString());
+        System.out.println("updateReporterInIssue " + WebDate.getCurrentDateTimeString());
         System.out.println("updateReporterInIssue - thread id: " + Thread.currentThread().getId());
     }
 
@@ -148,7 +139,7 @@ public class JiraUITest {
     @Test(groups = "update", dependsOnMethods = "loginTest")
     public void addCommentToIssue() {
         // 1. добавление комментария в Issue
-        String textNewComment = "add comment UI for lr11 " + WebDate.getCurrenDateTimeString();
+        String textNewComment = "add comment UI for lr11 " + WebDate.getCurrentDateTimeString();
         updateIssuePage.addCommentToIssue(textNewComment);
 
         // 2. проверка Assert-тов
@@ -161,7 +152,7 @@ public class JiraUITest {
         // 3. deleteting new test issue
         updateIssuePage.deleteIssue();
 
-        System.out.println("addCommentToIssue " + WebDate.getCurrenDateTimeString());
+        System.out.println("addCommentToIssue " + WebDate.getCurrentDateTimeString());
         System.out.println("addCommentToIssue - thread id: " + Thread.currentThread().getId());
     }
 
@@ -182,7 +173,7 @@ public class JiraUITest {
         // 3. deleteting new test issue
         updateIssuePage.deleteIssue();
 
-        System.out.println("updatePriorityInIssue " + WebDate.getCurrenDateTimeString());
+        System.out.println("updatePriorityInIssue " + WebDate.getCurrentDateTimeString());
         System.out.println("updatePriorityInIssue - thread id: " + Thread.currentThread().getId());
     }
 
@@ -193,7 +184,7 @@ public class JiraUITest {
         driver.quit();
     }
 
-    //    public String getCurrenDateTimeString() {
+    //    public String getCurrentDateTimeString() {
     //        Date d = new Date();
     //        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
     //        return formatDate.format(d);

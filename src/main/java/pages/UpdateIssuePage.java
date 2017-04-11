@@ -170,7 +170,7 @@ public class UpdateIssuePage {
     }
 
 
-    //    public String getCurrenDateTimeString() {
+    //    public String getCurrentDateTimeString() {
     //        Date d = new Date();
     //        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
     //        //FileManager.executedOperations.put(formatDate.format(d), FileManager.currentCommand);

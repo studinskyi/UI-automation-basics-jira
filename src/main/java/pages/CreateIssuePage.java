@@ -1,18 +1,13 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.WebAssert;
 import utils.WebDate;
 import utils.WebUtils;
 import utils.WebWait;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class CreateIssuePage {
@@ -74,7 +69,7 @@ public class CreateIssuePage {
     public void addSummaryToIssue() {
         WebElement summary = wWait.waitWebElement("//*[@id='summary']", 10);
         summary.clear();
-        textSummaryIssue = "UI_test_Jira_lr11 " + WebDate.getCurrenDateTimeString();
+        textSummaryIssue = "UI_test_Jira_lr11 " + WebDate.getCurrentDateTimeString();
         summary.sendKeys(textSummaryIssue);
         try {
             Thread.sleep(500);
@@ -133,7 +128,7 @@ public class CreateIssuePage {
         }
     }
 
-    //    public String getCurrenDateTimeString() {
+    //    public String getCurrentDateTimeString() {
     //        // для возможности последующего просмотра командой history
     //        Date d = new Date();
     //        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");

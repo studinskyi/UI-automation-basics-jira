@@ -52,8 +52,8 @@ public class DockerTest {
         File screen = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         Random rn = new Random();
         int randInt = rn.nextInt();
-        String pathToFile = "d:\\QA_Hillel\\DockerTest\\" + "chromeScreenshot" + randInt + "_" + getCurrenDateTimeToNameFile() + ".png";
-        //String pathToFile2 = "/home/ds/tmp/" + "chromeScreenshot" + randInt + "_" + getCurrenDateTimeToNameFile() + ".png";
+        String pathToFile = "d:\\QA_Hillel\\DockerTest\\" + "chromeScreenshot" + randInt + "_" + getCurrentDateTimeToNameFile() + ".png";
+        //String pathToFile2 = "/home/ds/tmp/" + "chromeScreenshot" + randInt + "_" + getCurrentDateTimeToNameFile() + ".png";
         try {
             FileUtils.copyFile(screen, new File(pathToFile));
         } catch (IOException e) {
@@ -63,7 +63,7 @@ public class DockerTest {
         driver.close();
         driver.quit();
 
-        System.out.println("created screenshot Chrome " + getCurrenDateTimeString());
+        System.out.println("created screenshot Chrome " + getCurrentDateTimeString());
         System.out.println("Chrome screenshot - " + pathToFile);
     }
 
@@ -89,8 +89,8 @@ public class DockerTest {
         File screen = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         Random rn = new Random();
         int randInt = rn.nextInt();
-        String pathToFile = "d:\\QA_Hillel\\DockerTest\\" + "firefoxScreenshot" + randInt + "_" + getCurrenDateTimeToNameFile() + ".png";
-        //String pathToFile2 = "/home/ds/tmp/" + "firefoxScreenshot" + randInt + "_" + getCurrenDateTimeToNameFile() + ".png";
+        String pathToFile = "d:\\QA_Hillel\\DockerTest\\" + "firefoxScreenshot" + randInt + "_" + getCurrentDateTimeToNameFile() + ".png";
+        //String pathToFile2 = "/home/ds/tmp/" + "firefoxScreenshot" + randInt + "_" + getCurrentDateTimeToNameFile() + ".png";
         try {
             FileUtils.copyFile(screen, new File(pathToFile));
         } catch (IOException e) {
@@ -100,17 +100,17 @@ public class DockerTest {
         driver.close();
         driver.quit();
 
-        System.out.println("created screenshot Firefox " + getCurrenDateTimeString());
+        System.out.println("created screenshot Firefox " + getCurrentDateTimeString());
         System.out.println("Firefox screenshot - " + pathToFile);
     }
 
-    public String getCurrenDateTimeToNameFile() {
+    public String getCurrentDateTimeToNameFile() {
         Date d = new Date();
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyyMMdd_HH_mm_ss");
         return formatDate.format(d);
     }
 
-    public String getCurrenDateTimeString() {
+    public String getCurrentDateTimeString() {
         Date d = new Date();
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
         return formatDate.format(d);
